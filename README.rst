@@ -1,6 +1,6 @@
-===========
-purplespade
-===========
+============
+purple-spade
+============
 
 Odoo scripting tool
 
@@ -22,7 +22,7 @@ Nutshell
     import purplespade
 
     with purplespade.openerp_env(db_name='xyz') as env:
-        admin = env['res_users'].search([('name', '=', 'admin')])
+        admin = env['res.users'].search([('name', '=', 'admin')])
         # do whatever you want to do
 
 Installation
