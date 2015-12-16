@@ -1,0 +1,2 @@
+# purple-spade
+Odoo tool
