@@ -12,7 +12,7 @@ setup(
     author='Csaba Palankai',
     author_email='csaba.palankai@gmail.com',
     packages=["purplespade"],
-    version='1.0',
+    version='0.1',
     description="Odoo python toolkit",
     classifiers=[
         'Development Status :: 4 - Beta',
