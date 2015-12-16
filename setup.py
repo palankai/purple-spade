@@ -12,8 +12,8 @@ setup(
     author='Csaba Palankai',
     author_email='csaba.palankai@gmail.com',
     packages=["purplespade"],
-    version='0.1',
-    description="Odoo python toolkit",
+    version='0.2.1',
+    description=read('README.rst'),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
