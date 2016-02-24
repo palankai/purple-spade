@@ -13,11 +13,8 @@ def openerp_env(*args, **kwargs):
 
 
 def start_openerp(*args, **kwargs):
-    test_mode = kwargs.pop('test_mode', False)
     configure(*args, **kwargs)
     ensure_database()
-    if test_mode:
-        openerp.modules.registry.RegistryManager.enter_test_mode()
     if 'init' in kwargs or 'update' in kwargs:
         openerp.service.server.start(preload=[], stop=True)
 
@@ -37,9 +34,9 @@ def openerp_context():
 
 def configure(*args, **kwargs):
     tools.config.parse_config(list(args))
-    openerp.cli.server.report_configuration()
     for k,v in kwargs.iteritems():
         tools.config[k] = v
+    openerp.cli.server.report_configuration()
 
 
 @contextlib.contextmanager
