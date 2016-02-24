@@ -7,9 +7,23 @@ import psycopg2
 
 @contextlib.contextmanager
 def openerp_env(*args, **kwargs):
+    start_openerp(*args, **kwargs)
+    with openerp_context() as env:
+        yield env
+
+
+def start_openerp(*args, **kwargs):
+    test_mode = kwargs.pop('test_mode', False)
     configure(*args, **kwargs)
     ensure_database()
-    #openerp.service.server.start(preload=[], stop=True)
+    if test_mode:
+        openerp.modules.registry.RegistryManager.enter_test_mode()
+    if 'init' in kwargs or 'update' in kwargs:
+        openerp.service.server.start(preload=[], stop=True)
+
+
+@contextlib.contextmanager
+def openerp_context():
     with openerp.api.Environment.manage():
         registry = openerp.modules.registry.RegistryManager.get(
             tools.config['db_name']
@@ -21,14 +35,11 @@ def openerp_env(*args, **kwargs):
             yield openerp.api.Environment(cr, uid, ctx)
 
 
-def configure(enter_test_mode=False, *args, **kwargs):
-    if not openerp.modules.module.loaded:
-        tools.config.parse_config(list(args))
-        openerp.cli.server.report_configuration()
+def configure(*args, **kwargs):
+    tools.config.parse_config(list(args))
+    openerp.cli.server.report_configuration()
     for k,v in kwargs.iteritems():
         tools.config[k] = v
-    if enter_test_mode:
-        openerp.modules.registry.RegistryManager.enter_test_mode()
 
 
 @contextlib.contextmanager
